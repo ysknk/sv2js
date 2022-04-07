@@ -1,0 +1,32 @@
+{
+  "name": "sv2js",
+  "version": "0.1.0",
+  "description": "write separated values to js file",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./bin/sv2js.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:ysknk/sv2js.git"
+  }
+  "bin": {
+    "sv2js": "./bin/sv2js.js"
+  },
+  "type": "module",
+  "keywords": [
+    "tsv",
+    "csv",
+    "javascript",
+    "js",
+    "json"
+  ],
+  "author": "ysknk",
+  "license": "ISC",
+  "dependencies": {
+    "find-up": "^6.3.0",
+    "fs": "^0.0.1-security",
+    "glob": "^7.2.0",
+    "yargs": "^17.4.0"
+  }
+}
