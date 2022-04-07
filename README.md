@@ -1,2 +1,5 @@
 # sv2js
-[node package] csv|tsv|txt to js object
+
+csvやtsvファイルを元にjs,jsonなどオブジェクト格納されたファイルを作成する。  
+
+機能としては使用できる状態。詳細は別途まとめるためwip
