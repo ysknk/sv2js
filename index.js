@@ -69,7 +69,7 @@ const convert = (content) => {
       let isIgnore = false
       if (!array[count]) { array[count] = {} }
       // NOTE: custom
-      column = onSequence(key, column, array[count], {
+      column = sequence(key, column, array[count], {
         data,
         iterator: j
       })
@@ -105,8 +105,10 @@ glob(targetFile, {
       // NOTE: write
       const regexp = new RegExp(`${path.extname(targetFile)}$`, 'i')
       const filename = file.replace(regexp, `.${extension}`)
+      console.log(path.resolve(filename), content)
+      console.log(convert(content))
       try {
-        await fs.writeFile(filename, convert(content))
+        await fs.writeFile(path.resolve(filename), convert(content))
         onSuccess(`${file} => ${filename}`)
       } catch (e) {
         console.log(err)
