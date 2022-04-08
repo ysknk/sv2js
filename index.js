@@ -105,8 +105,6 @@ glob(targetFile, {
       // NOTE: write
       const regexp = new RegExp(`${path.extname(targetFile)}$`, 'i')
       const filename = file.replace(regexp, `.${extension}`)
-      console.log(path.resolve(filename), content)
-      console.log(convert(content))
       try {
         await fs.writeFile(path.resolve(filename), convert(content))
         onSuccess(`${file} => ${filename}`)
