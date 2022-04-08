@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:ysknk/sv2js.git"
-  }
+  },
   "bin": {
     "sv2js": "./bin/sv2js.js"
   },
