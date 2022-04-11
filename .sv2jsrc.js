@@ -1,10 +1,10 @@
 export default {
   extension: 'js',
 
-  onSequence: (key, column, array) => {
+  onSequence: (key, value, array) => {
     if (key === 'date') {
-      column = column.replace(/-/g, '/')
+      value = value.replace(/-/g, '/')
     }
-    return column
+    return value
   }
 }
