@@ -82,6 +82,9 @@ const convert = (content) => {
       }
       if (column.ignore !== undefined) {
         isIgnore = column.ignore
+        if (!column.ignore) {
+          delete array[count][key]
+        }
       }
       if (!isIgnore) {
         array[count][key] = column
