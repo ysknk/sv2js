@@ -21,11 +21,11 @@ import {
 
 let data = []
 
-const sequence = (key, column, array) => {
+const sequence = (key, value, array) => {
   if (onSequence) {
-    return onSequence(key, column, array)
+    return onSequence(key, value, array)
   }
-  return column
+  return value
 }
 
 const hrtimes = []
