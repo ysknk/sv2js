@@ -28,7 +28,6 @@ const sequence = (key, column, array) => {
   return column
   // return {
   //   value: column,
-  //   array,
   //   ignore: false
   // }
 }
@@ -73,7 +72,6 @@ const convert = (content) => {
       const key = data[j]
       let isIgnore = false
       if (!array[count]) { array[count] = {} }
-
       // NOTE: custom
       column = sequence(key, column, array[count], {
         data,
@@ -86,7 +84,7 @@ const convert = (content) => {
         isIgnore = column.ignore
       }
       if (!isIgnore) {
-        array[count] = column
+        array[count][key] = column
       }
     })
   })
