@@ -72,7 +72,7 @@ const convert = (content) => {
     columns.forEach((column, j) => {
       const key = data[j]
       let isIgnore = false
-      const arrayCount = array[count]
+      let arrayCount = array[count]
       if (!arrayCount) { arrayCount = {} }
 
       // NOTE: custom
