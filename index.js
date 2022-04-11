@@ -28,6 +28,7 @@ const sequence = (key, column, array) => {
   return column
   // return {
   //   value: column,
+  //   array,
   //   ignore: false
   // }
 }
@@ -80,11 +81,11 @@ const convert = (content) => {
       if (column.value !== undefined) {
         column = column.value
       }
+      if (column.array !== undefined) {
+        array = column.array
+      }
       if (column.ignore !== undefined) {
         isIgnore = column.ignore
-        if (column.ignore) {
-          delete array[count][key]
-        }
       }
       if (!isIgnore) {
         array[count][key] = column
