@@ -72,9 +72,11 @@ const convert = (content) => {
     columns.forEach((column, j) => {
       const key = data[j]
       let isIgnore = false
-      if (!array[count]) { array[count] = {} }
+      const arrayCount = array[count]
+      if (!arrayCount) { arrayCount = {} }
+
       // NOTE: custom
-      column = sequence(key, column, array[count], {
+      column = sequence(key, column, arrayCount, {
         data,
         iterator: j
       })
@@ -82,13 +84,13 @@ const convert = (content) => {
         column = column.value
       }
       if (column.array !== undefined) {
-        array = column.array
+        arrayCount = column.array
       }
       if (column.ignore !== undefined) {
         isIgnore = column.ignore
       }
       if (!isIgnore) {
-        array[count][key] = column
+        arrayCount[key] = column
       }
     })
   })
