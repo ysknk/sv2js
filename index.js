@@ -21,11 +21,15 @@ import {
 
 let data = []
 
-const sequence = (key, value, array) => {
+const sequence = (key, column, array) => {
   if (onSequence) {
-    return onSequence(key, value, array)
+    return onSequence(key, column, array)
   }
-  return value
+  return column
+  // return {
+  //   value: column,
+  //   ignore: false
+  // }
 }
 
 const hrtimes = []
@@ -69,10 +73,16 @@ const convert = (content) => {
       let isIgnore = false
       if (!array[count]) { array[count] = {} }
       // NOTE: custom
-      column = onSequence(key, column, array[count], {
+      column = sequence(key, column, array[count], {
         data,
         iterator: j
       })
+      if (column.value !== undefined) {
+        column = column.value
+      }
+      if (column.ignore !== undefined) {
+        isIgnore = column.ignore
+      }
       if (!isIgnore) {
         array[count][key] = column
       }
