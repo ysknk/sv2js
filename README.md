@@ -22,7 +22,7 @@ npm i -D https://github.com/ysknk/sv2js.git
 ```json
 {
   "scripts": {
-    "ｓｖ２ｊｓ": "ｓｖ２ｊｓ"
+    "sv2js": "sv2js"
   },
 }
 ```
