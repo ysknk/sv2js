@@ -63,8 +63,6 @@ const convert = (content, fileconfig) => {
   const js = ''
   const array = []
 
-  console.log('fileconfig', fileconfig)
-
   // NOTE: line
   lines.forEach((line, i) => {
     let count = i - 1
