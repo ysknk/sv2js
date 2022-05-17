@@ -8,7 +8,13 @@ import { promises as fs } from 'fs'
 import glob from 'glob'
 import path from 'path'
 
-import { packageName, colors, convertTime } from './lib/utilities.js'
+import {
+  packageName,
+  colors,
+  convertTime,
+  pathValsMatcher
+} from './lib/utilities.js'
+
 import {
   separater,
   targetFile,
@@ -16,14 +22,16 @@ import {
   template,
   ignore,
   encode,
-  onSequence
+  config
 } from './lib/arguments.js'
 
 let data = []
 
-const sequence = (key, column, array) => {
-  if (onSequence) {
-    return onSequence(key, column, array)
+const sequence = (fileconfig, key, column, array) => {
+  let localconfig = fileconfig && fileconfig.onSequence
+    || config && config.onSequence
+  if (localconfig) {
+    return localconfig(key, column, array)
   }
   return column
   // return {
@@ -50,10 +58,12 @@ let templateString = ''
   }
 })()
 
-const convert = (content) => {
+const convert = (content, fileconfig) => {
   const lines = content.split(/\r\n|\n/)// NOTE: 改行文字
   const js = ''
   const array = []
+
+  console.log('fileconfig', fileconfig)
 
   // NOTE: line
   lines.forEach((line, i) => {
@@ -73,10 +83,11 @@ const convert = (content) => {
       let isIgnore = false
       if (!array[count]) { array[count] = {} }
       // NOTE: custom
-      column = sequence(key, column, array[count], {
-        data,
-        iterator: j
-      })
+      column = sequence(fileconfig, key, column, array[count])
+      // , {
+      //   data,
+      //   iterator: j
+      // }
       if (column.value !== undefined) {
         column = column.value
       }
@@ -113,10 +124,14 @@ glob(targetFile, {
       }
 
       // NOTE: write
-      const regexp = new RegExp(`${path.extname(targetFile)}$`, 'i')
-      const filename = file.replace(regexp, `.${extension}`)
+      const ext = path.extname(targetFile)
+      const regexp = new RegExp(`${ext}$`, 'i')
+      const fileconfig = pathValsMatcher(file, ext, config.options) || {}
+
+      const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || extension}`)
+
       try {
-        await fs.writeFile(filename, convert(content))
+        await fs.writeFile(filename, convert(content, fileconfig))
         onSuccess(`${file} => ${filename}`)
       } catch (e) {
         console.log(err)
