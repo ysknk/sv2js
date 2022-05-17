@@ -12,7 +12,7 @@ import {
   packageName,
   colors,
   convertTime,
-  pathValsMatcher
+  getMatchValueFromPath
 } from './lib/utilities.js'
 
 import {
@@ -124,7 +124,7 @@ glob(targetFile, {
       // NOTE: write
       const ext = path.extname(targetFile)
       const regexp = new RegExp(`${ext}$`, 'i')
-      const fileconfig = pathValsMatcher(file, ext, config.options) || {}
+      const fileconfig = getMatchValueFromPath(file, ext, config.options) || {}
 
       const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || extension}`)
 
