@@ -9,7 +9,6 @@ import glob from 'glob'
 import path from 'path'
 
 import {
-  packageName,
   colors,
   convertTime,
   getMatchValueFromPath
