@@ -8,11 +8,7 @@ import { promises as fs } from 'fs'
 import glob from 'glob'
 import path from 'path'
 
-import {
-  colors,
-  convertTime,
-  getMatchValueFromPath
-} from './lib/utilities.js'
+import utils from 'node-package-utilities'
 
 import {
   separater,
@@ -39,13 +35,7 @@ const sequence = (fileconfig, key, column, array) => {
   // }
 }
 
-const hrtimes = []
-hrtimes.push(process.hrtime())
-
-const onSuccess = (string) => {
-  hrtimes.push(process.hrtime())
-  console.log(colors.brightGreen('success'), `${string} - ${convertTime(hrtimes[hrtimes.length - 1], 's').string}`)
-}
+utils.message.begin()
 
 let templateString = ''
 ;(() => {
@@ -111,28 +101,31 @@ glob(targetFile, {
   // NOTE: file read/write
   (async () => {
     for await (const file of files) {
-      console.log(colors.blue('processing'), file)
+      utils.message.processing(file)
       // NOTE: read
       let content = ''
       try {
         content = await fs.readFile(file, encode)
       } catch (e) {
-        console.log(colors.magenta('error'), e)
+        utils.message.failure(e)
       }
 
       // NOTE: write
       const ext = path.extname(targetFile)
       const regexp = new RegExp(`${ext}$`, 'i')
-      const fileconfig = getMatchValueFromPath(file, ext, config.options) || {}
+      const fileconfig = utils.value.fromPath(file, ext, config.options) || {}
 
       const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || extension}`)
 
       try {
         await fs.writeFile(filename, convert(content, fileconfig))
-        onSuccess(`${file} => ${filename}`)
+        utils.message.success(`${file} => ${filename}`)
       } catch (e) {
-        console.log(err)
+        utils.message.failure(e)
       }
     }
+
+    utils.message.finish()
   })()
+
 })
