@@ -37,15 +37,16 @@ const sequence = (fileconfig, key, column, array) => {
 
 utils.message.begin()
 
-let templateString = ''
-;(() => {
-  if (template.match(/esm/i)) {
-    templateString = 'export default '
+let templateString = ((str) => {
+  if (str.match(/esm/i)) {
+    return 'export default '
   }
-  if (template.match(/cjs/i)) {
-    templateString = 'module.exports='
+  if (str.match(/cjs/i)) {
+    return 'module.exports='
   }
-})()
+  return ''
+})(template)
+
 
 const convert = (content, fileconfig) => {
   const lines = content.split(/\r\n|\n/)// NOTE: 改行文字
