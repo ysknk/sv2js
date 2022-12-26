@@ -84,7 +84,7 @@ const convert = (content, fileconfig) => {
 }
 
 glob(argv.targetFile, {
-  ignore: ignore.split(',')
+  ignore: argv.ignore.split(',')
 }, (err, files) => {
   if (err) {
     console.log(err)
