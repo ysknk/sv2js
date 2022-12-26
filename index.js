@@ -16,7 +16,7 @@ let data = []
 
 const sequence = (fileconfig, key, column, array) => {
   let localconfig = fileconfig && fileconfig.onSequence
-    || argv.config && config.onSequence
+    || config && config.onSequence
   if (localconfig) {
     return localconfig(key, column, array)
   }
