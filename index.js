@@ -41,14 +41,16 @@ let templateString = ((str) => {
 
 
 const convert = (content, fileconfig) => {
-  const lines = content.split(/\r\n|\n/)// NOTE: 改行文字
+  const lineSep = new RegExp(argv.lineSeparator)
+  const lines = content.split(lineSep)// NOTE: 改行文字
   const js = ''
   const array = []
 
   // NOTE: line
   lines.forEach((line, i) => {
     let count = i - 1
-    const columns = line.split(argv.separator)
+    const columnSep = new RegExp(argv.columnSeparator)
+    const columns = line.split(columnSep)
     // NOTE: column
     if (!columns[0]) { return }
 
