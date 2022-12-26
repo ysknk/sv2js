@@ -71,16 +71,16 @@ const convert = (content, fileconfig) => {
       let isIgnore = false
       if (!array[count]) { array[count] = {} }
       // NOTE: custom
-      column = sequence(fileconfig, key, column, array[count])
+      const columnObj = sequence(fileconfig, key, column, array[count])
       // , {
       //   data,
       //   iterator: j
       // }
-      if (column.value !== undefined) {
-        column = column.value
+      if (columnObj.value !== undefined) {
+        column = columnObj.value
       }
-      if (column.ignore !== undefined) {
-        isIgnore = column.ignore
+      if (columnObj.ignore !== undefined) {
+        isIgnore = columnObj.ignore
       }
       if (!isIgnore) {
         array[count][key] = column
