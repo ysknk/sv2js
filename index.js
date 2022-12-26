@@ -10,21 +10,13 @@ import path from 'path'
 
 import utils from 'node-package-utilities'
 
-import {
-  separater,
-  targetFile,
-  extension,
-  template,
-  ignore,
-  encode,
-  config
-} from './lib/arguments.js'
+import argv from './lib/arguments.js'
 
 let data = []
 
 const sequence = (fileconfig, key, column, array) => {
   let localconfig = fileconfig && fileconfig.onSequence
-    || config && config.onSequence
+    || argv.config && config.onSequence
   if (localconfig) {
     return localconfig(key, column, array)
   }
@@ -45,7 +37,7 @@ let templateString = ((str) => {
     return 'module.exports='
   }
   return ''
-})(template)
+})(argv.template)
 
 
 const convert = (content, fileconfig) => {
@@ -56,7 +48,7 @@ const convert = (content, fileconfig) => {
   // NOTE: line
   lines.forEach((line, i) => {
     let count = i - 1
-    const columns = line.split(separater)
+    const columns = line.split(argv.separater)
     // NOTE: column
     if (!columns[0]) { return }
 
@@ -91,7 +83,7 @@ const convert = (content, fileconfig) => {
   return `${templateString}${JSON.stringify(array, null, 2)}`
 }
 
-glob(targetFile, {
+glob(argv.targetFile, {
   ignore: ignore.split(',')
 }, (err, files) => {
   if (err) {
@@ -106,17 +98,17 @@ glob(targetFile, {
       // NOTE: read
       let content = ''
       try {
-        content = await fs.readFile(file, encode)
+        content = await fs.readFile(file, argv.encode)
       } catch (e) {
         utils.message.failure(e)
       }
 
       // NOTE: write
-      const ext = path.extname(targetFile)
+      const ext = path.extname(argv.targetFile)
       const regexp = new RegExp(`${ext}$`, 'i')
       const fileconfig = utils.value.fromPath(file, ext, config.options) || {}
 
-      const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || extension}`)
+      const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || argv.extension}`)
 
       try {
         await fs.writeFile(filename, convert(content, fileconfig))
