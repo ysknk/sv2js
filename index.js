@@ -41,7 +41,7 @@ let templateString = ((str) => {
 
 
 const convert = (content, fileconfig) => {
-  const lineSep = new RegExp(argv.lineSeparator)
+  const lineSep = new RegExp(argv.lineSeparator, 'g')
   const lines = content.split(lineSep)// NOTE: 改行文字
   const js = ''
   const array = []
@@ -49,7 +49,7 @@ const convert = (content, fileconfig) => {
   // NOTE: line
   lines.forEach((line, i) => {
     let count = i - 1
-    const columnSep = new RegExp(argv.columnSeparator)
+    const columnSep = new RegExp(argv.columnSeparator, 'g')
     const columns = line.split(columnSep)
     // NOTE: column
     if (!columns[0]) { return }
