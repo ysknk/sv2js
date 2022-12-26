@@ -48,7 +48,7 @@ const convert = (content, fileconfig) => {
   // NOTE: line
   lines.forEach((line, i) => {
     let count = i - 1
-    const columns = line.split(argv.separater)
+    const columns = line.split(argv.separator)
     // NOTE: column
     if (!columns[0]) { return }
 
