@@ -10,7 +10,7 @@ import path from 'path'
 
 import utils from 'node-package-utilities'
 
-import argv from './lib/arguments.js'
+import argv, { config } from './lib/arguments.js'
 
 let data = []
 
