@@ -46,10 +46,14 @@ const convert = (content, fileconfig) => {
   const js = ''
   const array = []
 
+  const columnSep = new RegExp(argv.columnSeparator, 'g')
+  // const baseColumn = lines[0] && lines[0].split(columnSep)
+  // if (!baseColumn) { return }
+  // const baseColumnLength = baseColumn.length
+
   // NOTE: line
   lines.forEach((line, i) => {
     let count = i - 1
-    const columnSep = new RegExp(argv.columnSeparator, 'g')
     const columns = line.split(columnSep)
     // NOTE: column
     if (!columns[0]) { return }
@@ -82,7 +86,8 @@ const convert = (content, fileconfig) => {
     })
   })
   // console.log(array)
-  return `${templateString}${JSON.stringify(array, null, 2)}`
+  const filterdArray = array.filter((obj) => obj)
+  return `${templateString}${JSON.stringify(filterdArray, null, 2)}`
 }
 
 glob(argv.targetFile, {
