@@ -68,7 +68,6 @@ const convert = (content, fileconfig) => {
         return
       }
     }
-    console.log(columns)
     resultLine = ''
 
     // NOTE: column
