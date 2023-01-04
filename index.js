@@ -47,14 +47,30 @@ const convert = (content, fileconfig) => {
   const array = []
 
   const columnSep = new RegExp(argv.columnSeparator, 'g')
-  // const baseColumn = lines[0] && lines[0].split(columnSep)
-  // if (!baseColumn) { return }
-  // const baseColumnLength = baseColumn.length
+  const baseColumn = lines[0] && lines[0].split(columnSep)
+  if (!baseColumn) { return }
+  const baseColumnLength = baseColumn.length
+
+  let resultLine = ''
 
   // NOTE: line
   lines.forEach((line, i) => {
     let count = i - 1
-    const columns = line.split(columnSep)
+    const baseLine = resultLine || line
+    let columns = baseLine.split(columnSep)
+
+    // NOTE: In-cell line feed processing
+    if (baseColumnLength > columns.length) {
+      resultLine += resultLine ? `${argv.lineJoin}${line}` : line
+
+      columns = resultLine.split(columnSep)
+      if (baseColumnLength > columns.length) {
+        return
+      }
+    }
+    console.log(columns)
+    resultLine = ''
+
     // NOTE: column
     if (!columns[0]) { return }
 
@@ -85,7 +101,7 @@ const convert = (content, fileconfig) => {
       }
     })
   })
-  // console.log(array)
+
   const filterdArray = array.filter((obj) => obj)
   return `${templateString}${JSON.stringify(filterdArray, null, 2)}`
 }
