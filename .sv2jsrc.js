@@ -4,7 +4,7 @@ export default {
   onSequence: (key, value, array) => {
     let ignore = false
 
-    // const replaceQuote = (str) => {
+    // const replaceDQuote = (str) => {
     //   return str.replace(/^"|"$/g, '')
     // }
 
