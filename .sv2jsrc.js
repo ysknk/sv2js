@@ -4,6 +4,14 @@ export default {
   onSequence: (key, value, array) => {
     let ignore = false
 
+    // if (key.match(/_null$/i)) {
+    //   ignore = true
+    //   return {
+    //     value,
+    //     ignore
+    //   }
+    // }
+    
     // const replaceDQuote = (str) => {
     //   return str.replace(/^"|"$/g, '')
     // }
