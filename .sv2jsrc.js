@@ -3,6 +3,11 @@ export default {
 
   onSequence: (key, value, array) => {
     let ignore = false
+
+    // const replaceQuote = (str) => {
+    //   return str.replace(/^"|"$/g, '')
+    // }
+
     if (key === 'date') {
       value = value.replace(/-/g, '/')
     }
