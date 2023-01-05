@@ -3,6 +3,10 @@ export default {
 
   onSequence: (key, value, array) => {
     let ignore = false
+    
+    // const replaceDQuote = (str) => {
+    //   return str.replace(/^"|"$/g, '')
+    // }
 
     // if (key.match(/_null$/i)) {
     //   ignore = true
@@ -12,10 +16,6 @@ export default {
     //   }
     // }
     
-    // const replaceDQuote = (str) => {
-    //   return str.replace(/^"|"$/g, '')
-    // }
-
     if (key === 'date') {
       value = value.replace(/-/g, '/')
     }
