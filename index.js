@@ -105,7 +105,7 @@ const convert = (content, fileconfig) => {
   return `${templateString}${JSON.stringify(filterdArray, null, 2)}`
 }
 
-glob(argv.targetFile, {
+glob(argv.src, {
   ignore: argv.ignore.split(',')
 }, (err, files) => {
   if (err) {
@@ -126,7 +126,7 @@ glob(argv.targetFile, {
       }
 
       // NOTE: write
-      const ext = path.extname(argv.targetFile)
+      const ext = path.extname(argv.src)
       const regexp = new RegExp(`${ext}$`, 'i')
       const fileconfig = utils.value.fromPath(file, ext, config.options) || {}
 
