@@ -108,7 +108,7 @@ glob(argv.src, {
   // NOTE: file read/write
   (async () => {
     for await (const file of files) {
-      utils.message.processing(file)
+      utils.message.processing(path.relative(process.cwd(), file))
       // NOTE: read
       let content = ''
       try {
@@ -123,14 +123,17 @@ glob(argv.src, {
 
       // NOTE: dest
       const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || argv.extension}`)
+      const dest = argv.dest
+        ? path.resolve(`${argv.dest}${path.basename(filename)}`)
+        : filename
 
       // NOTE: onPreprocess
       content = argv.onPreprocess(content)
 
       try {
         // NOTE: write
-        await fs.writeFile(filename, convert(content, fileconfig))
-        utils.message.success(`${file} => ${filename}`)
+        await fs.writeFile(dest, convert(content, fileconfig))
+        utils.message.success(`${path.relative(process.cwd(), file)} => ${path.relative(process.cwd(), dest)}`)
       } catch (e) {
         utils.message.failure(e)
       }
