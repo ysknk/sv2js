@@ -39,7 +39,6 @@ let templateString = ((str) => {
   return ''
 })(argv.template)
 
-
 const convert = (content, fileconfig) => {
   const lineSep = new RegExp(argv.lineSeparator, 'g')
   const lines = content.split(lineSep)// NOTE: 改行文字
@@ -87,8 +86,15 @@ const convert = (content, fileconfig) => {
     })
   })
 
-  const filterdArray = array.filter((obj) => obj)
-  return `${templateString}${JSON.stringify(filterdArray, null, 2)}`
+  let filterd = array.filter((obj) => obj)
+  if (argv.key) {
+    const objects = {}
+    filterd.forEach((object, i) => {
+      objects[object[argv.key]] = object
+    })
+    filterd = objects
+  }
+  return `${templateString}${JSON.stringify(filterd, null, 2)}`
 }
 
 glob(argv.src, {
@@ -118,8 +124,8 @@ glob(argv.src, {
       // NOTE: dest
       const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || argv.extension}`)
 
-      // NOTE: preprocess
-      content = argv.preprocess(content)
+      // NOTE: onPreprocess
+      content = argv.onPreprocess(content)
 
       try {
         // NOTE: write
