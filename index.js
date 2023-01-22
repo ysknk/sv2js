@@ -128,12 +128,11 @@ glob(argv.src, {
       // NOTE: write
       const ext = path.extname(argv.src)
       const regexp = new RegExp(`${ext}$`, 'i')
-      const fileconfig = utils.value.fromPath(file, ext, config.options) || {}
 
-      const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || argv.extension}`)
+      const filename = file.replace(regexp, `.${argv.extension}`)
 
       try {
-        await fs.writeFile(filename, convert(content, fileconfig))
+        await fs.writeFile(filename, convert(content, argv))
         utils.message.success(`${file} => ${filename}`)
       } catch (e) {
         utils.message.failure(e)
