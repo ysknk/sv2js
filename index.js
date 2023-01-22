@@ -51,26 +51,10 @@ const convert = (content, fileconfig) => {
   if (!baseColumn) { return }
   const baseColumnLength = baseColumn.length
 
-  let resultLine = ''
-
   // NOTE: line
   lines.forEach((line, i) => {
     let count = i - 1
-    const baseLine = resultLine || line
-    let columns = baseLine.split(columnSep)
-
-//     console.log(columns.length)
-//     // NOTE: In-cell line feed processing
-//     if (baseColumnLength > columns.length) {
-//       resultLine += resultLine ? `${argv.lineJoin}${line}` : line
-//
-//       columns = resultLine.split(columnSep)
-//       console.log('in', columns)
-// //       if (baseColumnLength > columns.length) {
-// //         return
-// //       }
-//     }
-//     resultLine = ''
+    let columns = line.split(columnSep)
 
     // NOTE: column
     if (!columns[0]) { return }
