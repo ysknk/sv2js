@@ -59,16 +59,18 @@ const convert = (content, fileconfig) => {
     const baseLine = resultLine || line
     let columns = baseLine.split(columnSep)
 
-    // NOTE: In-cell line feed processing
-    if (baseColumnLength > columns.length) {
-      resultLine += resultLine ? `${argv.lineJoin}${line}` : line
-
-      columns = resultLine.split(columnSep)
-      if (baseColumnLength > columns.length) {
-        return
-      }
-    }
-    resultLine = ''
+//     console.log(columns.length)
+//     // NOTE: In-cell line feed processing
+//     if (baseColumnLength > columns.length) {
+//       resultLine += resultLine ? `${argv.lineJoin}${line}` : line
+//
+//       columns = resultLine.split(columnSep)
+//       console.log('in', columns)
+// //       if (baseColumnLength > columns.length) {
+// //         return
+// //       }
+//     }
+//     resultLine = ''
 
     // NOTE: column
     if (!columns[0]) { return }
@@ -125,14 +127,18 @@ glob(argv.src, {
         utils.message.failure(e)
       }
 
-      // NOTE: write
       const ext = path.extname(argv.src)
       const regexp = new RegExp(`${ext}$`, 'i')
       const fileconfig = utils.value.fromPath(file, ext, config.options) || {}
 
+      // NOTE: dest
       const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || argv.extension}`)
 
+      // NOTE: preprocess
+      content = argv.preprocess(content)
+
       try {
+        // NOTE: write
         await fs.writeFile(filename, convert(content, fileconfig))
         utils.message.success(`${file} => ${filename}`)
       } catch (e) {
