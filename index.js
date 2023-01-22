@@ -130,7 +130,7 @@ glob(argv.src, {
       const regexp = new RegExp(`${ext}$`, 'i')
       const fileconfig = utils.value.fromPath(file, ext, config.options) || {}
 
-      const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || argv.extension}`)
+      const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || argv.extension}`)
 
       try {
         await fs.writeFile(filename, convert(content, fileconfig))
