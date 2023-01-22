@@ -34,7 +34,7 @@ let templateString = ((str) => {
     return 'export default '
   }
   if (str.match(/cjs/i)) {
-    return 'module.exports='
+    return 'module.exports = '
   }
   return ''
 })(argv.template)
