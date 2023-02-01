@@ -65,15 +65,15 @@ const convert = (content, fileconfig) => {
     }
 
     columns.forEach((column, j) => {
-      const key = data[j]
+      let key = data[j]
       let isIgnore = false
       if (!array[count]) { array[count] = {} }
       // NOTE: custom
       const columnObj = sequence(fileconfig, key, column, array[count])
-      // , {
-      //   data,
-      //   iterator: j
-      // }
+
+      if (columnObj.key !== undefined) {
+        key = columnObj.key
+      }
       if (columnObj.value !== undefined) {
         column = columnObj.value
       }
