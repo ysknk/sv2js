@@ -68,8 +68,14 @@ const convert = (content, fileconfig) => {
       let key = data[j]
       let isIgnore = false
       if (!array[count]) { array[count] = {} }
+
+      let formatColumn = column
+      if (formatColumn.match(/^\"/) && formatColumn.match(/\"$/)) {
+        formatColumn = formatColumn.replace(/^\"/, "").replace(/\"$/, "").replace(/\"\"/g, "\"")
+      }
+
       // NOTE: custom
-      const columnObj = sequence(fileconfig, key, column, array[count])
+      const columnObj = sequence(fileconfig, key, formatColumn, array[count])
 
       if (columnObj.key !== undefined) {
         key = columnObj.key
