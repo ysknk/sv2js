@@ -138,6 +138,10 @@ glob(argv.src, {
 
       try {
         // NOTE: write
+        const isAccess = await utils.file.isAccess(dest)
+        if (!isAccess) {
+          await utils.file.makeDir(dest)
+        }
         await fs.writeFile(dest, convert(content, fileconfig))
         utils.message.success(`${path.relative(process.cwd(), file)} => ${path.relative(process.cwd(), dest)}`)
       } catch (e) {
