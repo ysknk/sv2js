@@ -40,6 +40,10 @@ let templateString = ((str) => {
 })(argv.template)
 
 const convert = (content, fileconfig) => {
+  const baseConfig = Object.assign({}, config)
+  delete baseConfig.options
+  const mergeConfig = Object.assign({}, baseConfig, fileconfig)
+
   const lineSep = new RegExp(argv.lineSeparator, 'g')
   const lines = content.split(lineSep)// NOTE: 改行文字
   const js = ''
@@ -93,10 +97,10 @@ const convert = (content, fileconfig) => {
   })
 
   let filterd = array.filter((obj) => obj)
-  if (argv.key) {
+  if (mergeConfig.key) {
     const objects = {}
     filterd.forEach((object, i) => {
-      objects[object[argv.key]] = object
+      objects[object[mergeConfig.key]] = object
     })
     filterd = objects
   }
