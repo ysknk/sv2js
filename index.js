@@ -133,8 +133,10 @@ glob(argv.src, {
 
       // NOTE: dest
       const filename = file.replace(regexp, `.${(fileconfig && fileconfig.extension) || (fileconfig && fileconfig.ext) || argv.extension}`)
-      const dest = argv.dest
-        ? path.resolve(`${argv.dest}${path.basename(filename)}`)
+
+      const baseDest = fileconfig.dest || argv.dest
+      const dest = baseDest
+        ? path.resolve(`${baseDest}${path.basename(filename)}`)
         : filename
 
       // NOTE: onPreprocess
@@ -142,9 +144,9 @@ glob(argv.src, {
 
       try {
         // NOTE: write
-        const isAccess = await utils.file.isAccess(argv.dest)
+        const isAccess = await utils.file.isAccess(baseDest)
         if (!isAccess) {
-          await utils.file.makeDir(argv.dest)
+          await utils.file.makeDir(baseDest)
         }
         await fs.writeFile(dest, convert(content, fileconfig))
         utils.message.success(`${path.relative(process.cwd(), file)} => ${path.relative(process.cwd(), dest)}`)
